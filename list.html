@@ -4,24 +4,23 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <!-- Упрощенный заголовок -->
-            <div class="hero-section mb-4">
-                <div class="hero-content">
+            <div class="header mb-4">
+                <div class="header-content">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                         <div class="mb-3 mb-md-0">
                             <h1 class="display-6 fw-bold text-white mb-2">{{ shopping_list.name }}</h1>
-                            <div id="statsContainer" class="stats-badge">
-                                <!-- Статистика загрузится через JS -->
-                                <span id="totalStats" class="me-3"><i class="bi bi-box"></i> 3 Всего товаров</span>
-                                <span id="completedStats" class="me-3"><i class="bi bi-check-circle"></i> 1 Куплено</span>
-                                <span id="categoryStats"><i class="bi bi-tags"></i> 2 Категорий</span>
+                            <div id="statsBox" class="stats">
+                                <!-- Стата-->
+                                <span id="statsTotal" class="me-3"><i class="bi bi-box"></i> 0 Всего товаров</span>
+                                <span id="statsDone" class="me-3"><i class="bi bi-check-circle"></i> 0 Куплено</span>
+                                <span id="statsCats"><i class="bi bi-tags"></i> 0 Категорий</span>
                             </div>
                         </div>
-                        <div class="action-buttons d-flex flex-wrap gap-2">
-                            <button class="btn btn-light btn-responsive" onclick="showShareLink()">
+                        <div class="actions d-flex flex-wrap gap-2">
+                            <button class="btn btn-light btn-adapt" onclick="showShare()">
                                 <i class="bi bi-share"></i> <span class="d-none d-md-inline">Поделиться</span>
                             </button>
-                            <button class="btn btn-yellow btn-responsive" onclick="showAddItemModal()">
+                            <button class="btn btn-yellow btn-adapt" onclick="showAdd()">
                                 <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline">Добавить товар</span>
                             </button>
                         </div>
@@ -29,27 +28,26 @@
                 </div>
             </div>
 
-            <!-- Карточка фильтров -->
-            <div class="filter-card mb-4">
+            <div class="filter mb-4">
                 <div class="row g-3 align-items-center">
                     <div class="col-md-3 col-sm-6">
                         <label class="form-label small fw-semibold text-purple-800">Категория:</label>
-                        <select class="form-select form-select-sm" id="categoryFilter" onchange="filterItems()">
+                        <select class="form-select form-select-sm" id="filterCat" onchange="filterList()">
                             <option value="">Все категории</option>
                         </select>
                     </div>
                     <div class="col-md-2 col-sm-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="showCompleted" onchange="filterItems()">
-                            <label class="form-check-label small text-purple-800" for="showCompleted">
+                            <input class="form-check-input" type="checkbox" id="filterDone" onchange="filterList()">
+                            <label class="form-check-label small text-purple-800" for="filterDone">
                                 Показать купленные
                             </label>
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="urgentFilter" onchange="filterItems()">
-                            <label class="form-check-label small text-purple-800" for="urgentFilter">
+                            <input class="form-check-input" type="checkbox" id="filterUrgent" onchange="filterList()">
+                            <label class="form-check-label small text-purple-800" for="filterUrgent">
                                 Только срочные
                             </label>
                         </div>
@@ -57,40 +55,40 @@
                     <div class="col-md-3 col-sm-8">
                         <div class="search-box">
                             <i class="bi bi-search text-purple-600"></i>
-                            <input type="text" class="form-control form-control-sm" id="searchInput"
-                                   placeholder="Поиск товаров..." onkeyup="filterItems()">
+                            <input type="text" class="form-control form-control-sm" id="searchBox"
+                                   placeholder="Поиск товаров..." onkeyup="filterList()">
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-4">
-                        <button class="btn btn-outline-purple btn-sm w-100" onclick="clearFilters()">
+                        <button class="btn btn-outline-purple btn-sm w-100" onclick="clearFilter()">
                             <i class="bi bi-arrow-clockwise"></i> Сбросить фильтр
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Прогресс-бар статистики -->
-            <div class="progress-stats-card mb-4">
+            <!-- Прогресс статистики -->
+            <div class="progress-bar-container mb-4">
                 <div class="progress-header">
                     <span class="text-purple-800 fw-semibold">Прогресс списка</span>
-                    <span id="progressText" class="text-purple-700">0%</span>
+                    <span id="progressPercent" class="text-purple-700">0%</span>
                 </div>
                 <div class="progress">
-                    <div class="progress-bar" id="progressBar" role="progressbar"></div>
+                    <div class="progress-bar" id="progressLine" role="progressbar"></div>
                 </div>
             </div>
 
             <!-- Ссылка для общего доступа -->
-            <div id="shareLinkContainer" class="share-link-card" style="display: none;">
-                <div class="share-header">
+            <div id="shareBox" class="share-box" style="display: none;">
+                <div class="share-title">
                     <h6><i class="bi bi-link-45deg"></i> Ссылка для совместного доступа</h6>
-                    <button class="btn-close" onclick="hideShareLink()"></button>
+                    <button class="btn-close" onclick="hideShare()"></button>
                 </div>
-                <div class="share-body">
+                <div class="share-content">
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" id="shareLinkInput"
+                        <input type="text" class="form-control form-control-sm" id="shareUrl"
                                value="Загрузка..." readonly>
-                        <button class="btn btn-purple btn-sm" onclick="copyLinkManually()">
+                        <button class="btn btn-purple btn-sm" onclick="copyLink()">
                             <i class="bi bi-clipboard"></i> Копировать
                         </button>
                     </div>
@@ -99,8 +97,8 @@
             </div>
 
             <!-- Список товаров -->
-            <div class="items-container">
-                <div class="row" id="itemsList">
+            <div class="items-box">
+                <div class="row" id="itemsBox">
                     <!-- Сюда JS подгрузит items -->
                 </div>
             </div>
@@ -109,30 +107,30 @@
 </div>
 
 <!-- Модальное окно добавления/редактирования товара -->
-<div class="modal fade" id="itemModal" tabindex="-1">
+<div class="modal fade" id="modal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-purple text-white">
-                <h5 class="modal-title" id="itemModalTitle">
+                <h5 class="modal-title" id="modalTitle">
                     <i class="bi bi-cart-plus"></i> Добавить товар
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form id="itemForm" enctype="multipart/form-data">
-                <input type="hidden" id="editItemId" name="item_id">
+            <form id="form" enctype="multipart/form-data">
+                <input type="hidden" id="editId" name="item_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-8 col-sm-12">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-purple-800">Название товара *</label>
-                                <input type="text" class="form-control" id="itemText" name="text"
+                                <input type="text" class="form-control" id="inputName" name="text"
                                        placeholder="Введите название товара" required>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-purple-800">Количество</label>
-                                <input type="text" class="form-control" id="itemQuantity" name="quantity"
+                                <input type="text" class="form-control" id="inputQty" name="quantity"
                                        value="1" placeholder="1 шт, 500г, 2л">
                             </div>
                         </div>
@@ -142,7 +140,7 @@
                         <div class="col-md-6 col-sm-12">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-purple-800">Категория</label>
-                                <select class="form-select" id="itemCategory" name="category">
+                                <select class="form-select" id="inputCat" name="category">
                                     <option value="🥕 Овощи и фрукты">🥕 Овощи и фрукты</option>
                                     <option value="🥛 Молочные продукты">🥛 Молочные продукты</option>
                                     <option value="🍗 Мясо и птица">🍗 Мясо и птица</option>
@@ -161,7 +159,7 @@
                         <div class="col-md-6 col-sm-12">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-purple-800">От кого</label>
-                                <input type="text" class="form-control" id="itemAddedBy" name="added_by"
+                                <input type="text" class="form-control" id="inputAuthor" name="added_by"
                                        placeholder="Ваше имя (необязательно)">
                             </div>
                         </div>
@@ -171,14 +169,14 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-purple-800 mb-2 d-block">Дополнительные опции</label>
-                                <div class="urgent-toggle-container">
-                                    <input type="checkbox" class="urgent-checkbox" id="itemUrgent" name="urgent">
-                                    <label class="urgent-toggle-btn d-flex align-items-center" for="itemUrgent">
-                                        <span class="urgent-toggle-icon">
-                                            <i class="bi bi-lightning-charge urgent-icon-off"></i>
-                                            <i class="bi bi-lightning-charge-fill urgent-icon-on"></i>
+                                <div class="urgent-toggle">
+                                    <input type="checkbox" class="urgent-checkbox" id="inputUrgent" name="urgent">
+                                    <label class="urgent-btn d-flex align-items-center" for="inputUrgent">
+                                        <span class="urgent-icon">
+                                            <i class="bi bi-lightning-charge icon-off"></i>
+                                            <i class="bi bi-lightning-charge-fill icon-on"></i>
                                         </span>
-                                        <span class="urgent-toggle-text ms-3">Срочный товар</span>
+                                        <span class="urgent-text ms-3">Срочный товар</span>
                                     </label>
                                 </div>
                             </div>
@@ -187,38 +185,38 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold text-purple-800">Описание</label>
-                        <textarea class="form-control" id="itemDescription" name="description"
+                        <textarea class="form-control" id="inputDesc" name="description"
                                   rows="2" placeholder="Дополнительная информация о товаре..."></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold text-purple-800">Изображение товара</label>
-                        <div class="file-upload-area" id="fileUploadArea">
-                            <input type="file" class="form-control" id="itemImage" name="image" accept="image/*" onchange="previewImage(event)">
+                        <div class="upload-box" id="uploadBox">
+                            <input type="file" class="form-control" id="inputImg" name="image" accept="image/*" onchange="previewImg(event)">
                             <div class="form-text text-purple-700">Поддерживаются JPG, PNG, GIF (максимум 8MB)</div>
-                            <div id="currentImage" class="current-image mt-2" style="display: none;">
+                            <div id="imgCurrentBox" class="img-current mt-2" style="display: none;">
                                 <small class="fw-semibold text-purple-800">Текущее изображение:</small>
-                                <div class="image-preview mt-2">
-                                    <img id="currentImagePreview" src="" class="img-thumbnail img-preview-small">
+                                <div class="img-preview mt-2">
+                                    <img id="imgCurrent" src="" class="img-thumbnail img-small">
                                     <div class="mt-2">
-                                        <button type="button" class="btn btn-sm btn-outline-warning me-2" onclick="showImagePreview()">
+                                        <button type="button" class="btn btn-sm btn-outline-warning me-2" onclick="showImgPreview()">
                                             <i class="bi bi-zoom-in"></i> Увеличить
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImg()">
                                             <i class="bi bi-trash"></i> Удалить
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                            <div id="newImagePreview" class="new-image-preview mt-2" style="display: none;">
+                            <div id="imgNewBox" class="img-new mt-2" style="display: none;">
                                 <small class="fw-semibold text-purple-800">Новое изображение:</small>
-                                <div class="image-preview mt-2">
-                                    <img id="newImagePreviewImg" src="" class="img-thumbnail img-preview-small">
+                                <div class="img-preview mt-2">
+                                    <img id="imgNew" src="" class="img-thumbnail img-small">
                                     <div class="mt-2">
-                                        <button type="button" class="btn btn-sm btn-outline-warning me-2" onclick="showNewImagePreview()">
+                                        <button type="button" class="btn btn-sm btn-outline-warning me-2" onclick="showNewImgPreview()">
                                             <i class="bi bi-zoom-in"></i> Увеличить
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="cancelNewImage()">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="cancelImg()">
                                             <i class="bi bi-x-circle"></i> Отмена
                                         </button>
                                     </div>
@@ -231,7 +229,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Отмена
                     </button>
-                    <button type="submit" class="btn btn-yellow" id="itemModalButton">
+                    <button type="submit" class="btn btn-yellow" id="modalBtn">
                         <i class="bi bi-check-circle"></i> Добавить товар
                     </button>
                 </div>
@@ -240,8 +238,8 @@
     </div>
 </div>
 
-<!-- Модальное окно увеличенного просмотра изображения -->
-<div class="modal fade" id="imagePreviewModal" tabindex="-1">
+
+<div class="modal fade" id="modalImg" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-purple text-white">
@@ -249,7 +247,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body text-center">
-                <img id="fullSizeImage" src="" class="img-fluid rounded">
+                <img id="imgLarge" src="" class="img-fluid rounded">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -262,7 +260,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
 <style>
-/* Упрощенная фиолетовая и желтая цветовая палитра */
+/*фиолетовая и желтая цветовая палитра */
 :root {
     --purple-50: #f5f3ff;
     --purple-100: #ede9fe;
@@ -281,35 +279,35 @@
 }
 
 /* Адаптивные кнопки */
-.btn-responsive {
+.btn-adapt {
     padding: 10px 20px;
     font-size: 1rem;
     white-space: nowrap;
 }
 
 @media (max-width: 768px) {
-    .btn-responsive {
+    .btn-adapt {
         padding: 8px 16px;
         font-size: 0.9rem;
     }
 
-    .action-buttons .btn {
+    .actions .btn {
         min-width: 120px;
     }
 }
 
 @media (max-width: 576px) {
-    .btn-responsive {
+    .btn-adapt {
         padding: 8px 12px;
         font-size: 0.85rem;
     }
 
-    .btn-responsive i {
+    .btn-adapt i {
         margin-right: 4px !important;
     }
 }
 
-/* Упрощенная желтая кнопка */
+
 .btn-yellow {
     background: linear-gradient(135deg, var(--accent-yellow), var(--accent-yellow-dark));
     border: none;
@@ -352,15 +350,15 @@
     color: white;
 }
 
-/* Упрощенный герой-секция */
-.hero-section {
+
+.header {
     background: linear-gradient(135deg, var(--purple-500) 0%, var(--purple-700) 100%);
     padding: 2rem 1.5rem;
     border-radius: 16px;
     margin-top: 1rem;
 }
 
-.stats-badge {
+.stats {
     background: rgba(255, 255, 255, 0.2);
     padding: 0.75rem 1.25rem;
     border-radius: 20px;
@@ -372,18 +370,18 @@
     gap: 1.5rem;
 }
 
-.stats-badge span {
+.stats span {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.stats-badge i {
+.stats i {
     font-size: 1.1rem;
 }
 
-/* Упрощенная карточка фильтров */
-.filter-card {
+
+.filter {
     background: white;
     padding: 1.5rem;
     border-radius: 12px;
@@ -391,8 +389,7 @@
     border: 1px solid var(--purple-100);
 }
 
-/* Упрощенный прогресс-бар */
-.progress-stats-card {
+.progress-bar-container {
     background: white;
     padding: 1.25rem;
     border-radius: 12px;
@@ -420,7 +417,7 @@
 }
 
 /* Стили для кнопки-переключателя "Срочный товар" */
-.urgent-toggle-container {
+.urgent-toggle {
     display: inline-block;
 }
 
@@ -428,7 +425,7 @@
     display: none;
 }
 
-.urgent-toggle-btn {
+.urgent-btn {
     cursor: pointer;
     user-select: none;
     padding: 12px 20px;
@@ -440,21 +437,21 @@
     font-weight: 600;
 }
 
-.urgent-toggle-btn:hover {
+.urgent-btn:hover {
     background: linear-gradient(135deg, var(--purple-100), var(--purple-200));
     border-color: var(--purple-300);
     box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
 }
 
-.urgent-toggle-icon {
+.urgent-icon {
     position: relative;
     width: 28px;
     height: 28px;
     display: inline-block;
 }
 
-.urgent-icon-off,
-.urgent-icon-on {
+.icon-off,
+.icon-on {
     position: absolute;
     left: 0;
     top: 0;
@@ -462,46 +459,46 @@
     transition: all 0.3s ease;
 }
 
-.urgent-icon-off {
+.icon-off {
     color: var(--purple-400);
     opacity: 0.8;
 }
 
-.urgent-icon-on {
+.icon-on {
     color: #ef4444; /* Красный цвет как в вашем дизайне */
     opacity: 0;
     transform: scale(0.8);
 }
 
-.urgent-checkbox:checked + .urgent-toggle-btn {
+.urgent-checkbox:checked + .urgent-btn {
     background: linear-gradient(135deg, #fee2e2, #fecaca);
     border-color: #fca5a5;
     color: #991b1b;
 }
 
-.urgent-checkbox:checked + .urgent-toggle-btn:hover {
+.urgent-checkbox:checked + .urgent-btn:hover {
     background: linear-gradient(135deg, #fecaca, #fca5a5);
     border-color: #ef4444;
 }
 
-.urgent-checkbox:checked + .urgent-toggle-btn .urgent-icon-off {
+.urgent-checkbox:checked + .urgent-btn .icon-off {
     opacity: 0;
     transform: scale(0.8);
 }
 
-.urgent-checkbox:checked + .urgent-toggle-btn .urgent-icon-on {
+.urgent-checkbox:checked + .urgent-btn .icon-on {
     opacity: 1;
     transform: scale(1);
 }
 
-.urgent-checkbox:checked + .urgent-toggle-btn .urgent-toggle-text {
+.urgent-checkbox:checked + .urgent-btn .urgent-text {
     font-weight: 700;
     color: #991b1b;
 }
 
 
-/* Упрощенные карточки товаров */
-.item-card {
+
+.item {
     background: white;
     border: none;
     border-radius: 12px;
@@ -512,28 +509,28 @@
     border-left: 4px solid transparent;
 }
 
-.item-card:hover {
+.item:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(139, 92, 246, 0.12);
 }
 
-.item-card.urgent {
+.item.urgent {
     border-left-color: var(--accent-coral);
     background: linear-gradient(135deg, #fef2f2, white);
 }
 
-.item-card.completed {
+.item.completed {
     background: linear-gradient(135deg, var(--purple-50), white);
 }
 
-.item-card.completed .item-title {
+.item.completed .item-name {
     text-decoration: line-through;
     color: var(--purple-700);
     opacity: 0.7;
 }
 
 /* Стили для изображений */
-.img-preview-small {
+.img-small {
     width: 120px;
     height: 120px;
     object-fit: cover;
@@ -541,7 +538,7 @@
     border: 2px solid var(--purple-200);
 }
 
-.item-image-preview {
+.item-img {
     width: 100%;
     max-height: 150px;
     object-fit: cover;
@@ -552,13 +549,12 @@
     transition: all 0.2s ease;
 }
 
-.item-image-preview:hover {
+.item-img:hover {
     border-color: var(--purple-500);
     transform: scale(1.02);
 }
 
-/* Упрощенный файл аплоад */
-.file-upload-area {
+.upload-box {
     border: 2px dashed var(--purple-300);
     padding: 1.5rem;
     border-radius: 10px;
@@ -566,13 +562,13 @@
     transition: all 0.2s ease;
 }
 
-.file-upload-area:hover {
+.upload-box:hover {
     border-color: var(--purple-500);
     background: var(--purple-100);
 }
 
-/* Share card */
-.share-link-card {
+/* ссфлка */
+.share-box {
     background: linear-gradient(135deg, var(--purple-400) 0%, var(--purple-600) 100%);
     color: white;
     padding: 1.25rem;
@@ -606,7 +602,7 @@
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
-/* Бейджи */
+
 .badge-image {
     background: linear-gradient(135deg, var(--accent-yellow), var(--accent-yellow-dark));
     color: #000;
@@ -616,8 +612,8 @@
     font-weight: 600;
 }
 
-/* Категории */
-.category-header {
+
+.cat-title {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -626,8 +622,8 @@
     border-bottom: 2px solid var(--purple-200);
 }
 
-/* Описание товара */
-.item-description {
+/* Описание */
+.item-desc {
     font-size: 0.875rem;
     color: var(--purple-700);
     margin-top: 0.5rem;
@@ -638,217 +634,213 @@
     border-left: 3px solid var(--purple-300);
 }
 
-/* Адаптивность */
+/* Адаптивность для телефончиков и не только */
 @media (max-width: 768px) {
-    .hero-section {
+    .header {
         padding: 1.5rem 1rem;
     }
 
-    .hero-section .display-6 {
+    .header .display-6 {
         font-size: 1.5rem;
     }
 
-    .stats-badge {
+    .stats {
         padding: 0.5rem 1rem;
         font-size: 0.85rem;
         gap: 1rem;
     }
 
-    .filter-card {
+    .filter {
         padding: 1.25rem;
     }
 
-    .img-preview-small {
+    .img-small {
         width: 80px;
         height: 80px;
     }
 
-    .filter-card .row > div {
+    .filter .row > div {
         margin-bottom: 0.75rem;
     }
 }
 
 @media (max-width: 576px) {
-    .hero-section .d-flex {
+    .header .d-flex {
         flex-direction: column;
         align-items: flex-start !important;
     }
 
-    .action-buttons {
+    .actions {
         width: 100%;
         justify-content: flex-start !important;
         margin-top: 1rem;
     }
 
-    .stats-badge {
+    .stats {
         flex-direction: column;
         gap: 0.5rem;
         align-items: flex-start;
     }
 
-    .urgent-toggle-btn {
+    .urgent-btn {
         padding: 10px 16px;
         font-size: 0.9rem;
     }
 
-    .urgent-toggle-icon {
+    .urgent-icon {
         width: 24px;
         height: 24px;
     }
 
-    .urgent-icon-off,
-    .urgent-icon-on {
+    .icon-off,
+    .icon-on {
         font-size: 20px;
     }
 }
 </style>
 
 <script>
-// Константы
+// Константы для создания ссылок
 const SHARE_ID = "{{ shopping_list.share_id }}";
 const PYTHONANYWHERE_USERNAME = 'Ekaterina057';
 const SHARE_LINK = `https://${PYTHONANYWHERE_USERNAME}.pythonanywhere.com/list/${SHARE_ID}`;
 
 let allItems = [];
 
-// Функции для работы с изображениями
-function previewImage(event) {
+function previewImg(event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById('newImagePreviewImg').src = e.target.result;
-            document.getElementById('newImagePreview').style.display = 'block';
+            document.getElementById('imgNew').src = e.target.result;
+            document.getElementById('imgNewBox').style.display = 'block';
         }
         reader.readAsDataURL(file);
     }
 }
 
-function cancelNewImage() {
-    document.getElementById('itemImage').value = '';
-    document.getElementById('newImagePreview').style.display = 'none';
-    document.getElementById('newImagePreviewImg').src = '';
+
+function cancelImg() {
+    document.getElementById('inputImg').value = '';
+    document.getElementById('imgNewBox').style.display = 'none';
+    document.getElementById('imgNew').src = '';
 }
 
-function showImagePreview() {
-    const imgSrc = document.getElementById('currentImagePreview').src;
+function showImgPreview() {
+    const imgSrc = document.getElementById('imgCurrent').src;
     if (imgSrc) {
-        document.getElementById('fullSizeImage').src = imgSrc;
-        const modal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+        document.getElementById('imgLarge').src = imgSrc;
+        const modal = new bootstrap.Modal(document.getElementById('modalImg'));
         modal.show();
     }
 }
 
-function showNewImagePreview() {
-    const imgSrc = document.getElementById('newImagePreviewImg').src;
+
+function showNewImgPreview() {
+    const imgSrc = document.getElementById('imgNew').src;
     if (imgSrc) {
-        document.getElementById('fullSizeImage').src = imgSrc;
-        const modal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+        document.getElementById('imgLarge').src = imgSrc;
+        const modal = new bootstrap.Modal(document.getElementById('modalImg'));
         modal.show();
     }
 }
 
-function showItemImagePreview(imageUrl) {
+
+function showItemImg(imageUrl) {
     if (imageUrl) {
-        document.getElementById('fullSizeImage').src = `/static/uploads/${imageUrl}`;
-        const modal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+        document.getElementById('imgLarge').src = `/static/uploads/${imageUrl}`;
+        const modal = new bootstrap.Modal(document.getElementById('modalImg'));
         modal.show();
     }
 }
 
-// Функции для работы с модальным окном
-function showAddItemModal() {
-    // Сбрасываем форму
-    document.getElementById('itemForm').reset();
-    document.getElementById('editItemId').value = '';
-    document.getElementById('currentImage').style.display = 'none';
-    document.getElementById('newImagePreview').style.display = 'none';
-    document.getElementById('itemCategory').value = '📦 Другое';
-    document.getElementById('itemUrgent').checked = false;
+function showAdd() {
+    // Сбросиь форму
+    document.getElementById('form').reset();
+    document.getElementById('editId').value = '';
+    document.getElementById('imgCurrentBox').style.display = 'none';
+    document.getElementById('imgNewBox').style.display = 'none';
+    document.getElementById('inputCat').value = '📦 Другое';
+    document.getElementById('inputUrgent').checked = false;
 
-    // Удаляем скрытое поле для удаления изображения если есть
-    const removeFlag = document.getElementById('removeImageFlag');
+    const removeFlag = document.getElementById('flagRemoveImg');
     if (removeFlag) removeFlag.remove();
 
-    // Устанавливаем заголовки
-    document.getElementById('itemModalTitle').textContent = 'Добавить товар';
-    document.getElementById('itemModalButton').textContent = 'Добавить товар';
-
-    // Показываем модальное окно
-    const modal = new bootstrap.Modal(document.getElementById('itemModal'));
+    //  заголовки
+    document.getElementById('modalTitle').textContent = 'Добавить товар';
+    document.getElementById('modalBtn').textContent = 'Добавить товар';
+    const modal = new bootstrap.Modal(document.getElementById('modal'));
     modal.show();
 }
+
 
 function editItem(itemId) {
     const item = allItems.find(i => i.id === itemId);
     if (!item) return;
 
-    document.getElementById('itemModalTitle').textContent = 'Редактировать товар';
-    document.getElementById('itemModalButton').textContent = 'Сохранить изменения';
-    document.getElementById('editItemId').value = item.id;
+    document.getElementById('modalTitle').textContent = 'Редактировать товар';
+    document.getElementById('modalBtn').textContent = 'Сохранить изменения';
+    document.getElementById('editId').value = item.id;
 
-    // Заполняем поля данными товара
-    document.getElementById('itemText').value = item.text;
-    document.getElementById('itemQuantity').value = item.quantity || '1';
-    document.getElementById('itemCategory').value = item.category || '📦 Другое';
-    document.getElementById('itemAddedBy').value = item.added_by || '';
-    document.getElementById('itemDescription').value = item.description || '';
-    document.getElementById('itemUrgent').checked = item.urgent || false;
+    //заполненеи полей товара
+    document.getElementById('inputName').value = item.text;
+    document.getElementById('inputQty').value = item.quantity || '1';
+    document.getElementById('inputCat').value = item.category || '📦 Другое';
+    document.getElementById('inputAuthor').value = item.added_by || '';
+    document.getElementById('inputDesc').value = item.description || '';
+    document.getElementById('inputUrgent').checked = item.urgent || false;
 
-    // Показываем текущее изображение если есть
+    // текущее изображение при наличии
     if (item.image_filename) {
-        document.getElementById('currentImagePreview').src = `/static/uploads/${item.image_filename}`;
-        document.getElementById('currentImage').style.display = 'block';
+        document.getElementById('imgCurrent').src = `/static/uploads/${item.image_filename}`;
+        document.getElementById('imgCurrentBox').style.display = 'block';
     } else {
-        document.getElementById('currentImage').style.display = 'none';
+        document.getElementById('imgCurrentBox').style.display = 'none';
     }
 
-    // Скрываем превью нового изображения
-    document.getElementById('newImagePreview').style.display = 'none';
+    document.getElementById('imgNewBox').style.display = 'none';
 
-    const modal = new bootstrap.Modal(document.getElementById('itemModal'));
+    const modal = new bootstrap.Modal(document.getElementById('modal'));
     modal.show();
 }
 
-function removeImage() {
-    document.getElementById('currentImagePreview').src = '';
-    document.getElementById('currentImage').style.display = 'none';
-    // Добавляем скрытое поле для удаления изображения
-    if (!document.getElementById('removeImageFlag')) {
+function removeImg() {
+    document.getElementById('imgCurrent').src = '';
+    document.getElementById('imgCurrentBox').style.display = 'none';
+    if (!document.getElementById('flagRemoveImg')) {
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'remove_image';
         input.value = 'true';
-        input.id = 'removeImageFlag';
-        document.getElementById('itemForm').appendChild(input);
+        input.id = 'flagRemoveImg';
+        document.getElementById('form').appendChild(input);
     }
 }
-
-// Функции для работы со списком
-async function loadItems() {
+//самая жесть и ужас
+async function loadList() {
     try {
         const response = await fetch(`/api/list/${SHARE_ID}/items`);
         allItems = await response.json();
 
-        // СОРТИРОВКА: сначала срочные, потом по дате добавления (новые сверху)
+        //сначала срочные
         allItems.sort((a, b) => {
             if (a.urgent && !b.urgent) return -1;
             if (!a.urgent && b.urgent) return 1;
             return new Date(b.created_at) - new Date(a.created_at);
         });
 
-        filterItems();
+        filterList();
         loadStats();
     } catch (error) {
         console.error('Ошибка загрузки списка:', error);
     }
 }
 
-function filterItems() {
-    const categoryFilter = document.getElementById('categoryFilter').value;
-    const showCompleted = document.getElementById('showCompleted').checked;
-    const searchText = document.getElementById('searchInput').value.toLowerCase();
-    const showUrgentOnly = document.getElementById('urgentFilter').checked;
+function filterList() {
+    const categoryFilter = document.getElementById('filterCat').value;
+    const showCompleted = document.getElementById('filterDone').checked;
+    const searchText = document.getElementById('searchBox').value.toLowerCase();
+    const showUrgentOnly = document.getElementById('filterUrgent').checked;
 
     const filteredItems = allItems.filter(item => {
         const matchesCategory = !categoryFilter || item.category === categoryFilter;
@@ -861,11 +853,11 @@ function filterItems() {
         return matchesCategory && matchesCompleted && matchesSearch && matchesUrgent;
     });
 
-    renderItems(filteredItems);
+    showItems(filteredItems);
 }
 
-function renderItems(items) {
-    const container = document.getElementById('itemsList');
+function showItems(items) {
+    const container = document.getElementById('itemsBox');
     container.innerHTML = '';
 
     if (items.length === 0) {
@@ -883,12 +875,12 @@ function renderItems(items) {
     });
 
     Object.keys(categories).forEach(category => {
-        // Заголовок категории
+        // Заголовок
         const categoryHeader = document.createElement('div');
         categoryHeader.className = 'col-12';
         categoryHeader.innerHTML = `
-            <div class="category-header">
-                <h6 class="text-purple-800 fw-bold mb-0">${category} (${categories[category].length} ${getItemWord(categories[category].length)})</h6>
+            <div class="cat-title">
+                <h6 class="text-purple-800 fw-bold mb-0">${category} (${categories[category].length} ${itemWord(categories[category].length)})</h6>
             </div>
         `;
         container.appendChild(categoryHeader);
@@ -901,30 +893,30 @@ function renderItems(items) {
             const imageSection = item.image_filename ? `
                 <div class="mt-2">
                     <img src="/static/uploads/${item.image_filename}"
-                         class="item-image-preview"
-                         onclick="showItemImagePreview('${item.image_filename}')"
+                         class="item-img"
+                         onclick="showItemImg('${item.image_filename}')"
                          alt="${item.text}">
                 </div>
             ` : '';
 
             const itemHTML = `
                 <div class="col-md-6 col-lg-4 col-sm-12">
-                    <div class="item-card ${item.urgent ? 'urgent' : ''} ${item.completed ? 'completed' : ''}">
+                    <div class="item ${item.urgent ? 'urgent' : ''} ${item.completed ? 'completed' : ''}">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h6 class="item-title mb-0 ${item.completed ? 'text-decoration-line-through' : ''}">
+                            <h6 class="item-name mb-0 ${item.completed ? 'text-decoration-line-through' : ''}">
                                 ${item.text}
                                 ${item.urgent ? '<span class="badge bg-danger ms-2"><i class="bi bi-lightning-charge-fill me-1"></i>СРОЧНО</span>' : ''}
                                 ${imageBadge}
                             </h6>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" ${item.completed ? 'checked' : ''}
-                                       onchange="toggleItem(${item.id}, this.checked)">
+                                       onchange="toggleComp(${item.id}, this.checked)">
                             </div>
                         </div>
-                        <!-- Точная дата и время добавления товара -->
-                            <div class="item-added-time small text-muted mb-2">
+                        <!-- Точная дата и время добавления -->
+                            <div class="item-date small text-muted mb-2">
                                 <i class="bi bi-calendar-plus me-1"></i>
-                                <span>${formatExactDateTime(item.created_at)}</span>
+                                <span>${katyaVREMIAA(item.created_at)}</span>
                             </div>
 
                         ${item.quantity && item.quantity !== '1' ?
@@ -934,7 +926,7 @@ function renderItems(items) {
                             `<div class="text-muted small mb-1"><i class="bi bi-person"></i> ${item.added_by}</div>` : ''}
 
                         ${item.description ?
-                            `<div class="item-description">${item.description}</div>` : ''}
+                            `<div class="item-desc">${item.description}</div>` : ''}
 
                         ${imageSection}
 
@@ -954,15 +946,14 @@ function renderItems(items) {
     });
 }
 
-// Функции для работы с товарами
-async function toggleItem(itemId, completed) {
+async function toggleComp(itemId, completed) {
     try {
         await fetch(`/api/item/${itemId}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({completed: completed})
         });
-        loadItems();
+        loadList();
     } catch (error) {
         console.error('Ошибка обновления:', error);
     }
@@ -972,28 +963,27 @@ async function deleteItem(itemId) {
     if (confirm('Удалить этот товар?')) {
         try {
             await fetch(`/api/item/${itemId}`, {method: 'DELETE'});
-            loadItems();
+            loadList();
         } catch (error) {
             console.error('Ошибка удаления:', error);
         }
     }
 }
 
-// Функции для работы с ссылкой
-function showShareLink() {
-    const container = document.getElementById('shareLinkContainer');
-    const input = document.getElementById('shareLinkInput');
+function showShare() {
+    const container = document.getElementById('shareBox');
+    const input = document.getElementById('shareUrl');
     input.value = SHARE_LINK;
     container.style.display = 'block';
     input.select();
 }
 
-function hideShareLink() {
-    document.getElementById('shareLinkContainer').style.display = 'none';
+function hideShare() {
+    document.getElementById('shareBox').style.display = 'none';
 }
 
-function copyLinkManually() {
-    const input = document.getElementById('shareLinkInput');
+function copyLink() {
+    const input = document.getElementById('shareUrl');
     input.select();
     input.setSelectionRange(0, 99999);
     try {
@@ -1001,7 +991,7 @@ function copyLinkManually() {
         if (successful) {
             const btn = event.target;
             const originalText = btn.textContent;
-            btn.textContent = '✅ Скопировано!';
+            btn.textContent = 'Скопировано!';
             btn.classList.remove('btn-purple');
             btn.classList.add('btn-success');
             setTimeout(() => {
@@ -1015,20 +1005,18 @@ function copyLinkManually() {
     }
 }
 
-function clearFilters() {
-    document.getElementById('categoryFilter').value = '';
-    document.getElementById('showCompleted').checked = false;
-    document.getElementById('urgentFilter').checked = false;
-    document.getElementById('searchInput').value = '';
-    filterItems();
+function clearFilter() {
+    document.getElementById('filterCat').value = '';
+    document.getElementById('filterDone').checked = false;
+    document.getElementById('filterUrgent').checked = false;
+    document.getElementById('searchBox').value = '';
+    filterList();
 }
-// Функция для форматирования точной даты и времени
-function formatExactDateTime(datestring) {
-    if (!datestring) return 'Дата неизвестна';
 
+
+function katyaVREMIAA(datestring) {
+    if (!datestring) return 'Даты нет';
     const date = new Date(datestring);
-
-    // Форматируем с указанием часового пояса Европы/Москвы
     return date.toLocaleString('ru-RU', {
         timeZone: 'Europe/Moscow',
         day: 'numeric',
@@ -1039,16 +1027,16 @@ function formatExactDateTime(datestring) {
     });
 }
 
-// Функции для статистики
-function updateProgressBar(total, completed) {
+function updateProgress(total, completed) {
     const progress = total > 0 ? (completed / total) * 100 : 0;
-    const progressBar = document.getElementById('progressBar');
-    const progressText = document.getElementById('progressText');
+    const progressBar = document.getElementById('progressLine');
+    const progressText = document.getElementById('progressPercent');
 
     progressBar.style.width = `${progress}%`;
     progressBar.setAttribute('aria-valuenow', progress);
     progressText.textContent = `${Math.round(progress)}%`;
 }
+
 
 async function loadStats() {
     try {
@@ -1056,23 +1044,22 @@ async function loadStats() {
         const stats = await response.json();
 
         // Обновляем прогресс-бар
-        updateProgressBar(stats.total_items, stats.completed_items);
+        updateProgress(stats.total_items, stats.completed_items);
 
         // Обновляем статистику в заголовке
-        document.getElementById('totalStats').innerHTML = `<i class="bi bi-box"></i> ${stats.total_items} Всего товаров`;
-        document.getElementById('completedStats').innerHTML = `<i class="bi bi-check-circle"></i> ${stats.completed_items} Куплено`;
-        document.getElementById('categoryStats').innerHTML = `<i class="bi bi-tags"></i> ${Object.keys(stats.categories).length} Категорий`;
+        document.getElementById('statsTotal').innerHTML = `<i class="bi bi-box"></i> ${stats.total_items} Всего товаров`;
+        document.getElementById('statsDone').innerHTML = `<i class="bi bi-check-circle"></i> ${stats.completed_items} Куплено`;
+        document.getElementById('statsCats').innerHTML = `<i class="bi bi-tags"></i> ${Object.keys(stats.categories).length} Категорий`;
 
-        // Обновляем фильтр категорий
-        const categoryFilter = document.getElementById('categoryFilter');
+        const categoryFilter = document.getElementById('filterCat');
         categoryFilter.innerHTML = '<option value="">Все категории</option>';
 
         Object.keys(stats.categories).forEach(category => {
             const itemCount = stats.categories[category];
-            const itemWord = getItemWord(itemCount);
+            const word = itemWord(itemCount);
             const option = document.createElement('option');
             option.value = category;
-            option.textContent = `${category} (${itemCount} ${itemWord})`;
+            option.textContent = `${category} (${itemCount} ${word})`;
             categoryFilter.appendChild(option);
         });
 
@@ -1081,20 +1068,18 @@ async function loadStats() {
     }
 }
 
-// Вспомогательные функции
-function getItemWord(count) {
+function itemWord(count) {
     if (count % 10 === 1 && count % 100 !== 11) return 'товар';
     if (count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20)) return 'товара';
     return 'товаров';
 }
 
-// Drag and drop для файлов
 document.addEventListener('DOMContentLoaded', function() {
-    const fileUploadArea = document.getElementById('fileUploadArea');
-    const fileInput = document.getElementById('itemImage');
+    const uploadBox = document.getElementById('uploadBox');
+    const fileInput = document.getElementById('inputImg');
 
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        fileUploadArea.addEventListener(eventName, preventDefaults, false);
+        uploadBox.addEventListener(eventName, preventDefaults, false);
     });
 
     function preventDefaults(e) {
@@ -1103,24 +1088,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     ['dragenter', 'dragover'].forEach(eventName => {
-        fileUploadArea.addEventListener(eventName, highlight, false);
+        uploadBox.addEventListener(eventName, highlight, false);
     });
 
     ['dragleave', 'drop'].forEach(eventName => {
-        fileUploadArea.addEventListener(eventName, unhighlight, false);
+        uploadBox.addEventListener(eventName, unhighlight, false);
     });
 
     function highlight() {
-        fileUploadArea.style.borderColor = 'var(--purple-500)';
-        fileUploadArea.style.background = 'var(--purple-100)';
+        uploadBox.style.borderColor = 'var(--purple-500)';
+        uploadBox.style.background = 'var(--purple-100)';
     }
 
     function unhighlight() {
-        fileUploadArea.style.borderColor = 'var(--purple-300)';
-        fileUploadArea.style.background = 'var(--purple-50)';
+        uploadBox.style.borderColor = 'var(--purple-300)';
+        uploadBox.style.background = 'var(--purple-50)';
     }
 
-    fileUploadArea.addEventListener('drop', handleDrop, false);
+    uploadBox.addEventListener('drop', handleDrop, false);
 
     function handleDrop(e) {
         const dt = e.dataTransfer;
@@ -1130,52 +1115,61 @@ document.addEventListener('DOMContentLoaded', function() {
         const event = new Event('change', { bubbles: true });
         fileInput.dispatchEvent(event);
     }
-});
 
-// Обработчик формы
-document.getElementById('itemForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    document.getElementById('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const itemId = document.getElementById('editItemId').value;
-    const method = itemId ? 'PUT' : 'POST';
+        const formData = new FormData(e.target);
+        const itemId = document.getElementById('editId').value;
+        const method = itemId ? 'PUT' : 'POST';
 
-    try {
-        const response = await fetch(`/api/list/${SHARE_ID}/items`, {
-            method: method,
-            body: formData
-        });
+        try {
+            const response = await fetch(`/api/list/${SHARE_ID}/items`, {
+                method: method,
+                body: formData
+            });
 
-        if (response.ok) {
-            const result = await response.json();
+            if (response.ok) {
+                const result = await response.json();
 
-            // Закрываем модальное окно
-            const modal = bootstrap.Modal.getInstance(document.getElementById('itemModal'));
-            modal.hide();
+                // Закрываем окно
+                const modalElement = document.getElementById('modal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) modal.hide();
 
-            // Сбрасываем форму
-            e.target.reset();
-            document.getElementById('currentImage').style.display = 'none';
-            document.getElementById('newImagePreview').style.display = 'none';
-            const removeFlag = document.getElementById('removeImageFlag');
-            if (removeFlag) removeFlag.remove();
+                // Сбрасываем форму
+                e.target.reset();
+                document.getElementById('imgCurrentBox').style.display = 'none';
+                document.getElementById('imgNewBox').style.display = 'none';
+                const removeFlag = document.getElementById('flagRemoveImg');
+                if (removeFlag) removeFlag.remove();
 
-            // Перезагружаем список
-            loadItems();
-        } else {
-            const error = await response.json();
-            alert('Ошибка: ' + (error.error || 'Неизвестная ошибка'));
+                // Перезагружаем список
+                loadList();
+            } else {
+                const error = await response.json();
+                alert('Ошибка: ' + (error.error || 'Неизвестная ошибка'));
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+            alert('Ошибка: ' + error.message);
         }
-    } catch (error) {
-        console.error('Ошибка:', error);
-        alert('Ошибка: ' + error.message);
-    }
+    });
 });
 
-// Загружаем items при старте
-loadItems();
+// Загрузка списка при старте
+loadList();
+
+let refreshInterval = setInterval(() => {
+    console.log('Автообновление списка...');
+    loadList();
+}, 5000);
+
+window.addEventListener('beforeunload', function() {
+    clearInterval(refreshInterval);
+});
 </script>
 
-<!-- Подключаем Bootstrap JS -->
+<!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
