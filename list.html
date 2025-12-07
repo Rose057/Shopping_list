@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <!-- Прогресс статистики -->
+            <!-- Прогресс-полоска -->
             <div class="progress-bar-container mb-4">
                 <div class="progress-header">
                     <span class="text-purple-800 fw-semibold">Прогресс списка</span>
@@ -96,17 +96,15 @@
                 </div>
             </div>
 
-            <!-- Список товаров -->
             <div class="items-box">
                 <div class="row" id="itemsBox">
-                    <!-- Сюда JS подгрузит items -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Модальное окно добавления/редактирования товара -->
+<!-- окно дл редактирования карты товара -->
 <div class="modal fade" id="modal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -256,7 +254,7 @@
     </div>
 </div>
 
-<!-- Подключаем Bootstrap Icons -->
+<!--Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
 <style>
@@ -278,7 +276,7 @@
     --accent-coral: #fb7185;
 }
 
-/* Адаптивные кнопки */
+
 .btn-adapt {
     padding: 10px 20px;
     font-size: 1rem;
@@ -323,7 +321,7 @@
     transform: translateY(-1px);
 }
 
-/* Фиолетовые стили */
+/* Фиолетовый*/
 .bg-purple {
     background: linear-gradient(135deg, var(--purple-500), var(--purple-700)) !important;
 }
@@ -416,7 +414,7 @@
     transition: width 0.6s ease;
 }
 
-/* Стили для кнопки-переключателя "Срочный товар" */
+/* Стиль для "Срочный товар" */
 .urgent-toggle {
     display: inline-block;
 }
@@ -465,7 +463,7 @@
 }
 
 .icon-on {
-    color: #ef4444; /* Красный цвет как в вашем дизайне */
+    color: #ef4444;
     opacity: 0;
     transform: scale(0.8);
 }
@@ -529,7 +527,6 @@
     opacity: 0.7;
 }
 
-/* Стили для изображений */
 .img-small {
     width: 120px;
     height: 120px;
@@ -913,7 +910,7 @@ function showItems(items) {
                                        onchange="toggleComp(${item.id}, this.checked)">
                             </div>
                         </div>
-                        <!-- Точная дата и время добавления -->
+                        <!-- дата и время добавления -->
                             <div class="item-date small text-muted mb-2">
                                 <i class="bi bi-calendar-plus me-1"></i>
                                 <span>${katyaVREMIAA(item.created_at)}</span>
@@ -1043,10 +1040,10 @@ async function loadStats() {
         const response = await fetch(`/api/list/${SHARE_ID}/stats`);
         const stats = await response.json();
 
-        // Обновляем прогресс-бар
+        // Обновляем прогресс
         updateProgress(stats.total_items, stats.completed_items);
 
-        // Обновляем статистику в заголовке
+        // Обновляем стату в заголовке
         document.getElementById('statsTotal').innerHTML = `<i class="bi bi-box"></i> ${stats.total_items} Всего товаров`;
         document.getElementById('statsDone').innerHTML = `<i class="bi bi-check-circle"></i> ${stats.completed_items} Куплено`;
         document.getElementById('statsCats').innerHTML = `<i class="bi bi-tags"></i> ${Object.keys(stats.categories).length} Категорий`;
@@ -1132,7 +1129,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 const result = await response.json();
 
-                // Закрываем окно
                 const modalElement = document.getElementById('modal');
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 if (modal) modal.hide();
