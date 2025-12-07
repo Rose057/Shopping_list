@@ -1,46 +1,171 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
-            <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); border: none;">
-                <h1 class="text-white mb-0" style="font-weight: 700; font-size: 2.5rem;">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <!-- Заголовок -->
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-purple-800 mb-3">
                     Семейный список покупок
                 </h1>
+                <p class="lead text-muted">
+                    Создавайте общие списки с семьей и друзьями
+                </p>
             </div>
 
-            <div class="card-body text-center p-5">
-                <div class="mb-5">
-                    <p class="text-muted fs-5" style="color: #7b8ab8 !important;">
-                        Создайте список и поделитесь ссылкой с семьей
-                    </p>
-                    <div class="mt-4">
-                        <i class="bi bi-people-fill" style="font-size: 4rem; color: #9d4edd;"></i>
+            <div class="card border-0 shadow-sm mb-5">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <h3 class="fw-bold text-purple-800 mb-3">
+                                Создайте свой список
+                            </h3>
+
+                            <form action="/create_list" method="POST">
+                                <button type="submit" class="btn btn-warning btn-lg px-4 py-3 fw-bold">
+                                    <i class="bi bi-plus-circle me-2"></i>
+                                    Создать список
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="bg-light p-4 rounded">
+                                <h5 class="fw-bold text-purple-800 mb-3">
+                                    Что можно делать?
+                                </h5>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-check-circle text-success me-2"></i>
+                                            <small>Добавлять товары</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-check-circle text-success me-2"></i>
+                                            <small>Отмечать купленное</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-check-circle text-success me-2"></i>
+                                            <small>Добавлять фото</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-check-circle text-success me-2"></i>
+                                            <small>Сортировать по категориям</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-4">
+                <h4 class="fw-bold text-purple-800">
+                    Всего 3 шага
+                </h4>
+            </div>
+
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <div class="text-center p-3">
+                        <div class="bg-purple text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                             style="width: 50px; height: 50px;">
+                            <span class="fw-bold">1</span>
+                        </div>
+                        <h6 class="fw-bold">Создать список</h6>
+                        <p class="small text-muted mb-0">
+                            Нажмите кнопку выше
+                        </p>
                     </div>
                 </div>
 
-                <form action="/create_list" method="POST">
-                    <button type="submit" class="btn btn-lg py-3 px-5 fw-bold"
-                            style="background: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%);
-                                   border: none;
-                                   color: white;
-                                   border-radius: 15px;
-                                   font-size: 1.2rem;
-                                   transition: all 0.3s ease;
-                                   box-shadow: 0 6px 20px rgba(157, 78, 221, 0.3);">
-                        Создать новый список
-                        <i class="bi bi-plus-circle ms-2"></i>
-                    </button>
-                </form>
+                <div class="col-md-4">
+                    <div class="text-center p-3">
+                        <div class="bg-purple text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                             style="width: 50px; height: 50px;">
+                            <span class="fw-bold">2</span>
+                        </div>
+                        <h6 class="fw-bold">Поделиться</h6>
+                        <p class="small text-muted mb-0">
+                            Скопируйте и отправьте ссылку
+                        </p>
+                    </div>
+                </div>
 
-                <div class="mt-5 pt-4 border-top" style="border-color: #f0e6ff !important;">
-                    <p class="text-muted mb-2" style="color: #a0a7c2 !important;">
-                        <small>
-                            <i class="bi bi-lightbulb me-2"></i>
-                            Все члены семьи смогут добавлять и отмечать товары в реальном времени
+                <div class="col-md-4">
+                    <div class="text-center p-3">
+                        <div class="bg-purple text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                             style="width: 50px; height: 50px;">
+                            <span class="fw-bold">3</span>
+                        </div>
+                        <h6 class="fw-bold">Пользоваться</h6>
+                        <p class="small text-muted mb-0">
+                            Все редактируют один список
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-6 col-md-4 col-lg">
+                    <div class="text-center p-2 h-100">
+                        <i class="bi bi-phone text-purple-600 fs-3 d-block mb-2"></i>
+                        <small class="fw-semibold text-purple-800 d-block mb-1">На всех устройствах</small>
+                        <small class="text-muted d-none d-lg-block" style="font-size: 0.8rem;">
+                            Телефон, планшет, ноутбук
                         </small>
-                    </p>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg">
+                    <div class="text-center p-2 h-100">
+                        <i class="bi bi-cloud-arrow-up text-purple-600 fs-3 d-block mb-2"></i>
+                        <small class="fw-semibold text-purple-800 d-block mb-1">Автосохранение</small>
+                        <small class="text-muted d-none d-lg-block" style="font-size: 0.8rem;">
+                            Изменения сохраняются автоматически
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg">
+                    <div class="text-center p-2 h-100">
+                        <i class="bi bi-lightning-charge text-purple-600 fs-3 d-block mb-2"></i>
+                        <small class="fw-semibold text-purple-800 d-block mb-1">Срочные товары</small>
+                        <small class="text-muted d-none d-lg-block" style="font-size: 0.8rem;">
+                            Выделяйте важные покупки
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-md-6 col-lg">
+                    <div class="text-center p-2 h-100">
+                        <i class="bi bi-graph-up text-purple-600 fs-3 d-block mb-2"></i>
+                        <small class="fw-semibold text-purple-800 d-block mb-1">Прогресс</small>
+                        <small class="text-muted d-none d-lg-block" style="font-size: 0.8rem;">
+                            Отслеживайте, сколько товаров куплено
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-md-6 col-lg">
+                    <div class="text-center p-2 h-100">
+                        <i class="bi bi-shield-check text-purple-600 fs-3 d-block mb-2"></i>
+                        <small class="fw-semibold text-purple-800 d-block mb-1">Безопасность</small>
+                        <small class="text-muted d-none d-lg-block" style="font-size: 0.8rem;">
+                            Создается уникальная ссылка
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,21 +173,50 @@
 </div>
 
 <style>
-    .card {
-        transition: transform 0.3s ease;
+
+:root {
+    --purple-500: #8b5cf6;
+    --purple-600: #7c3aed;
+    --purple-700: #6d28d9;
+    --purple-800: #5b21b6;
+}
+
+.text-purple-800 { color: var(--purple-800) !important; }
+.text-purple-600 { color: var(--purple-600) !important; }
+
+.bg-purple {
+    background-color: var(--purple-600) !important;
+}
+
+.btn-warning {
+    background-color: #fbbf24;
+    border-color: #fbbf24;
+    color: #000;
+    font-weight: 600;
+}
+
+.btn-warning:hover {
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+    transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .display-4 {
+        font-size: 2rem !important;
     }
 
-    .card:hover {
-        transform: translateY(-5px);
+    .btn-lg {
+        padding: 0.75rem 1.5rem !important;
+        font-size: 1rem !important;
     }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4) !important;
-    }
-
-    body {
-        background-color: #f8f9ff;
-    }
+}
 </style>
 {% endblock %}
